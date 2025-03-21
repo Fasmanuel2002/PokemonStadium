@@ -1,0 +1,17 @@
+from enum import Enum
+class Type(Enum):
+    FIRE = "🔥"
+    WATER = "💧"
+    PLANT = "🌿"
+    ELECTRIC = "⚡"
+    AIR = "🌪️"    
+    FIGHTING = "👊🏻"
+    POISON = "☠️"
+    GROUND = "🌍"
+    FLYING = "🌪️"
+    PSYCHIC = "🔮"
+    BUG = "🐛"
+    ROCK = "💎"
+    GHOST = "👻"
+    NORMAL = "🏃"
+    FAIRY = "🧚"
