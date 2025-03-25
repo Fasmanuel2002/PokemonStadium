@@ -44,6 +44,8 @@ class Trainer:
 class TrainerAI(Trainer):
     def __init__(self):
         self.isIA = True
+        
+    ##Its seeing like if it fainted change the team of the i
     def verify_is_fainted(self):
         if self.get_loseGame() == False:
             if self.in_battle_fainted == True:
@@ -51,6 +53,7 @@ class TrainerAI(Trainer):
                 i = 0
                 while True:
                     if self.team[i].fainted == True:
+                        #i == 0 the first pokemon 
                         i += 1
                     else:
                         self.in_battle = self.team[i]
