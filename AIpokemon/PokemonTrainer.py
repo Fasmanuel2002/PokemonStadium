@@ -17,20 +17,25 @@ class Trainer:
         self.isIA = False
     
     
+        self._in_battle = self.team[0]
+        self.team[0].on_field = True
+        self.in_battle_fainted = False
+    
     def get_loseGame(self):
         faint_cnt = 0
         
         for poke in self.team:
             if poke.fainted:
                 faint_cnt += 1
-                
-            if faint_cnt == 3:
-                return True
-            else:
-                return False
+            return True if (faint_cnt == 3) else False
+            
     
     def is_turn(self):
         return self.token
+    
+    def set_turn(self, _token):
+            self.token = _token
+            
     
     
         
@@ -39,8 +44,19 @@ class Trainer:
 class TrainerAI(Trainer):
     def __init__(self):
         self.isIA = True
-        
-        #def verify_is_fainted(self):
+    def verify_is_fainted(self):
+        if self.get_loseGame() == False:
+            if self.in_battle_fainted == True:
+                self.in_battle = False
+                i = 0
+                while True:
+                    if self.team[i].fainted == True:
+                        i += 1
+                    else:
+                        self.in_battle = self.team[i]
+                        self.team[i].on_field = True
+                        
+                        
             
 
 
