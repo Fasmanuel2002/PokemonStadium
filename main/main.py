@@ -5,6 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Pokemon import ClassPokemon as cls
 from CreatePokemons.PokemonType import Type
+from AIpokemon.PokemonTrainer import *
 
 
 def main():
@@ -12,6 +13,8 @@ def main():
     Pokemons = pokemons()[1]
     pokemons_player = []
     pokemons_AI = []
+    player = Trainer()
+    AI = TrainerAI()
     print("Selects 3 Pokemons of the list")
     for poke in Pokemons:
         print(f"{poke} \n")
@@ -20,18 +23,29 @@ def main():
         selection = int(input(f"{i+1}Pokemon: "))
         Single_Pokemon = choosePokemon(Pokemons, selection)
         pokemons_player.append(Single_Pokemon)
-           
-
-
-    print("\n\n\nPokemons that you Selected")
-    for poke in pokemons_player:
+    
+    player.team = pokemons_player
+    print("Player Team")
+    for poke in player.team:
         print(f"{poke}\n")
+
     
     #Selection for Pokemons for Ai
     for i in range(3):
         selectIA = random.randrange(1,80)
         SinlePokemon = choosePokemon(AIPlayer, selectIA)
         pokemons_AI.append(SinlePokemon)
+    
+    AI.teamIA = pokemons_AI
+    print("AI team")    
+    for poke in AI.teamIA:
+        print(f"{poke}\n")
+   
+     
+    """
+    print("\n\n\nPokemons that you Selected")
+    for poke in pokemons_player:
+        print(f"{poke}\n")
     
     print("\n\n\nThese is the first Pokemon of the AI")    
     #for pokeIA in pokemons_AI:
@@ -70,7 +84,7 @@ def main():
     
     print("PLAYERS WINS")
     
-
+"""   
     
     
 
