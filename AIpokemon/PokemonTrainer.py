@@ -55,6 +55,7 @@ class TrainerAI(Trainer):
                     else:
                         self.in_battle = self.team[i]
                         self.team[i].on_field = True
+                        break
                         
                         
             
