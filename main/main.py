@@ -36,10 +36,11 @@ def main():
         SinlePokemon = choosePokemon(AIPlayer, selectIA)
         pokemons_AI.append(SinlePokemon)
     
-    AI.teamIA = pokemons_AI
+    AI.team = pokemons_AI
     print("AI team")    
-    for poke in AI.teamIA:
+    for poke in AI.team:
         print(f"{poke}\n")
+   
    
      
     """
