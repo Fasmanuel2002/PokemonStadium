@@ -1,9 +1,11 @@
-class Pokemon:
-    def __init__(self, idAttack, NameAttack, typeAttack, damageAttack):
+class Attacks:
+    def __init__(self, idAttack, NameAttack, typeAttack, powerAttack,accuracy, pp):
         self._idAttack = idAttack
         self._NameAttack = NameAttack
         self._typeAttack = typeAttack
-        self._damageAttack = damageAttack
+        self._powerAttack = powerAttack
+        self._accuracy = accuracy
+        self._pp = pp
         
     @property
     def idAttack(self): #Getter
@@ -41,16 +43,41 @@ class Pokemon:
             raise ValueError("Not Number")  
     
     @property
-    def damageAttack(self): #Getter
-        return self._damageAttack
+    def accuracy(self): #Getter
+        return self._accuracy
     
-    @damageAttack.setter
-    def damageAttack(self, damageAttack):
-        if isinstance(damageAttack, int):
-            self._damageAttack = damageAttack
+    @accuracy.setter
+    def accuracy(self, newAccuracy):
+        if isinstance(newAccuracy, float):
+            self._accuracy = newAccuracy
+        else:
+            raise ValueError("Not Number")
+    
+    
+    @property
+    def pp(self): #Getter
+        return self._pp
+    
+    @pp.setter
+    def pp(self, newPP):
+        if isinstance(newPP, int):
+            self._newPP = newPP
+        else:
+            raise ValueError("Not Number")
+    
+    
+    @property
+    def powerAttack(self): #Getter
+        return self._powerAttack
+    
+    @powerAttack.setter
+    def powerAttack(self, powerAttack):
+        if isinstance(powerAttack, int):
+            self._powerAttack = powerAttack
         else:
             raise ValueError("Not Number")
             
+        
 
     def __str__(self):
         return f"this Attack id{self._idAttack} \n has this name {self._NameAttack} \n is this type: {self._typeAttack} and this damage {self._damageAttack}"

@@ -1,5 +1,7 @@
-from CreatePokemons import PokemonType
-from CreatePokemons.PokemonType import Type
+from .PokemonType import Type
+from .attacksCreator import attacks
+import random
+
 
 class Pokemon:
     def __init__(self, NumPokedex, NamePokemon, Hp, attack,defense, speed, pokemonType):
@@ -10,6 +12,7 @@ class Pokemon:
         self._defense = defense
         self._speed = speed
         self._pokemonType = pokemonType
+        
         
         
         
@@ -95,12 +98,19 @@ class Pokemon:
             raise ValueError("Name must be a string")    
             
     
-   
-    def get_damage(self, other):
-        return float((((2*50)/5 + 2) * (other.attack/self.defense)) / 50)
+    @property
+    def ListAttacks(self): #Getter
+        return self._ListAttacks   
+    
+    @ListAttacks.setter
+    def ListAttacks(self, newListAttacks):
+        if isinstance(newListAttacks, list):
+            self._ListAttacks = newListAttacks
+        else:
+            raise ValueError("Name must be a string")
     
     def attacks(self):
-        if self.pokemonType == "🔥":
+        if self.pokemonType == Type.FIRE:
             attacks = {
                 "Flamethrower ": 90,
                 "Fire Blast ": 110,
@@ -108,7 +118,7 @@ class Pokemon:
                 "Fire Punch ": 75
             }
             return attacks
-        elif self.pokemonType == "💧":
+        elif self.pokemonType == Type.WATER:
             attacks = {
                 "Surf ": 90,
                 "Hydro Pump": 110,
@@ -116,7 +126,7 @@ class Pokemon:
                 "Aqua Tail":90
             }
             return attacks
-        elif self.pokemonType == "🏃":
+        elif self.pokemonType == Type.NORMAL:
             attacks = {
                 "Body Slam": 85,
                 "Hyper Beam": 150,
@@ -124,7 +134,7 @@ class Pokemon:
                 "Double-Edge":120
             }
             return attacks
-        elif self.pokemonType == "⚡":
+        elif self.pokemonType == Type.ELECTRIC:
             attacks = {
                 "Thunderbolt ": 90,
                 "Thunder": 110,
@@ -132,14 +142,14 @@ class Pokemon:
                 "Shock Wave":60
             }
             return attacks
-        elif self.pokemonType == "🌿":
+        elif self.pokemonType == Type.PLANT:
             attacks = {
                 "Tackle": 15,
                 "Razor Leaf": 25,
                 "Magical Leaf": 28,   
             }
             return attacks
-        elif self.pokemonType == "🌪️":
+        elif self.pokemonType == Type.AIR:
             attacks = {
                 "Aerial Ace": 60,
                 "Wing Attack":60,
@@ -206,8 +216,15 @@ class Pokemon:
         
             
         else: return f"Error Pokemon doesnt have type"
-                
-
+    
+    def get_damage(self, other):
+        return float((((2*50)/5 + 2) * (other.attack/self.defense)) / 50)
+    
+    
+    
+    #def available_attacks(self):
+    #   return random.sample(attacks.get(self._pokemonType, []),4)
+    
     def __str__(self):
         return f"Pokedex No: {self.NumPokedex}\t Name: {self.NamePokemon}\n Hp: {self.Hp}\t \t Attack: {self.attack}\n Defense: {self.defense}\t Speed: {self.speed}\n Type: {self.pokemonType}"
 
