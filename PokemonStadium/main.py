@@ -1,110 +1,122 @@
 import sys
 import os
 import random
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Pokemon.PokemonsCreator import pokemons
+# Ensure the correct path is added for module imports
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from Pokemon.PokemonsCreator import pokemons  # Import Pokémon creation function
 
 def main():
+    # Generate AI and player Pokémon
     AIPlayer = pokemons()[0]
     Pokemons = pokemons()[1]
     pokemons_player = []
     pokemons_AI = []
 
-    print("Selects 3 Pokemons of the list")
+    # Player selects 3 Pokémon
+    print("Select 3 Pokémon from the list:")
     for poke in Pokemons:
         print(f"{poke} \n")
     
     for i in range(3):
-        selection = int(input(f"{i+1} Pokemon: "))
-        Single_Pokemon = choosePokemon(Pokemons, selection)
-        pokemons_player.append(Single_Pokemon)
+        while True:
+            try:
+                selection = int(input(f"Select Pokémon {i+1} (Enter Pokedex Number): "))
+                Single_Pokemon = choosePokemon(Pokemons, selection)
+                if Single_Pokemon:
+                    pokemons_player.append(Single_Pokemon)
+                    break
+                else:
+                    print("Invalid selection. Try again.")
+            except ValueError:
+                print("Please enter a valid number.")
 
-    
-    #Selection for Pokemons for Ai
-    for i in range(3):
-        selectIA = random.randrange(1,80)
-        SinlePokemon = choosePokemon(AIPlayer, selectIA)
-        pokemons_AI.append(SinlePokemon)
-    
-   
-    print("\n\n\nPokemons that you Selected")
+    # AI selects 3 Pokémon randomly
+    ai_pokemon_numbers = random.sample(range(1, 80), 3)
+    for num in ai_pokemon_numbers:
+        SinglePokemon = choosePokemon(AIPlayer, num)
+        pokemons_AI.append(SinglePokemon)
+
+    print("\nYour selected Pokémon:")
     for poke in pokemons_player:
         print(f"{poke}\n")
-    
-     
-    print("\n\n\nThese is the first Pokemon of the AI")    
-    selectIAfirst = random.choice(pokemons_AI)
-    print(selectIAfirst.NamePokemon)
-    
-    
-    pokemon_to_use = int(input("Select First pokemon"))
-    print(f"{pokemons_player[pokemon_to_use]}")
-    
-    #First Fight
-    fightPokemons(selectIAfirst, pokemons_player,pokemon_to_use)
-    print(f"This pokemon has fainted {selectIAfirst.NamePokemon}")
-    
-    
-    
-    print("\n\n\nThese is the second Pokemon of the AI")
-    selectIASecond = random.choice(pokemons_AI)
-    print(selectIASecond.NamePokemon)
-    
-    #Second Fight
-    fightPokemons(selectIASecond, pokemons_player,pokemon_to_use)
-    print(f"This pokemon has fainted {selectIASecond.NamePokemon}")
-    
-    
-    #Third Fight
-    print("\n\n\nThese is the Third Pokemon of the AI")
-    selectIAThird = random.choice(pokemons_AI)
-    print(selectIAThird.NamePokemon)
-    
-    
-    print("PLAYERS WINS")
-    
- 
 
-def choosePokemon(List_Pokemons,number):
+    # AI Pokémon selection
+    print("\nAI has selected its Pokémon.\n")
+
+    # Ensure AI Pokémon are unique
+    selectIAfirst, selectIASecond, selectIAThird = pokemons_AI
+
+    # Player chooses first Pokémon
+    while True:
+        try:
+            pokemon_to_use = int(input("Select your first Pokémon (0-2): "))
+            if 0 <= pokemon_to_use < len(pokemons_player):
+                break
+            print("Invalid choice. Try again.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+    # AI vs Player Battles (Three rounds)
+    for ai_pokemon in [selectIAfirst, selectIASecond, selectIAThird]:
+        print(f"\n\n\nAI's next Pokémon: {ai_pokemon.NamePokemon}")
+
+        # Check if the player's Pokémon has fainted and switch if needed
+        if pokemons_player[pokemon_to_use].Hp <= 0:
+            print("Your Pokémon fainted! Choose another one:")
+            while True:
+                try:
+                    pokemon_to_use = int(input("Select your next Pokémon (0-2): "))
+                    if 0 <= pokemon_to_use < len(pokemons_player) and pokemons_player[pokemon_to_use].Hp > 0:
+                        break
+                    print("Invalid choice or Pokémon has fainted. Try again.")
+                except ValueError:
+                    print("Please enter a valid number.")
+
+        fightPokemons(ai_pokemon, pokemons_player, pokemon_to_use)
+        print(f"{ai_pokemon.NamePokemon} has fainted!")
+
+    print("\n🎉 Congratulations! You won the Pokémon battle! 🎉")
+
+def choosePokemon(List_Pokemons, number):
+    """Returns a Pokémon object based on its Pokedex number."""
     for pokemon in List_Pokemons:
         if number == pokemon.NumPokedex:
             return pokemon
+    return None  # Return None if Pokémon is not found
 
-def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
-    player_pokemon = pokemons_player[pokemon_to_use]  
-    player_turn = player_pokemon.speed >= selectIAfirst.speed  
-    
-    while selectIAfirst.Hp > 0 and player_pokemon.Hp > 0:
+def fightPokemons(selectIA, pokemons_player, pokemon_to_use):
+    """Handles turn-based Pokémon battles."""
+    player_pokemon = pokemons_player[pokemon_to_use]  # Select player's Pokémon
+    player_turn = player_pokemon.speed >= selectIA.speed  # Determine who attacks first
+
+    while selectIA.Hp > 0 and player_pokemon.Hp > 0:
         if player_turn:
-            print("\nplayer turn\n")
-            player_attacks = player_pokemon.attacks()  
+            print("\nYour turn!\n")
+            player_attacks = player_pokemon.attacks()
             print("Available attacks:", list(player_attacks.keys()))
             choice = input("Choose an attack: ")
 
             if choice in player_attacks:
                 damage = player_attacks[choice]
-                damage_multiplier = selectIAfirst.get_damage(player_pokemon)
-                selectIAfirst.Hp -= damage * damage_multiplier
-                print(f"HP: {selectIAfirst.Hp} \n")
+                damage_multiplier = selectIA.get_damage(player_pokemon)
+                selectIA.Hp -= damage * damage_multiplier
+                print(f"AI's {selectIA.NamePokemon} HP: {selectIA.Hp} \n")
         else:
-            print("\nAI turn for attacking\n")
-            ia_attacks = selectIAfirst.attacks()
+            print("\nAI's turn!\n")
+            ia_attacks = selectIA.attacks()
             if ia_attacks:
                 choice, damage = random.choice(list(ia_attacks.items()))
-                damage_multiplier = player_pokemon.get_damage(selectIAfirst)
+                damage_multiplier = player_pokemon.get_damage(selectIA)
                 player_pokemon.Hp -= damage * damage_multiplier
-                print(f" HP: {player_pokemon.Hp} \n")
+                print(f"Your {player_pokemon.NamePokemon} HP: {player_pokemon.Hp} \n")
 
-        
-        player_turn = not player_turn
+        player_turn = not player_turn  # Switch turns
 
-    if selectIAfirst.Hp <= 0:
-        print("You won!")
+    if selectIA.Hp <= 0:
+        print("You won this round!")
     else:
-        print("You lost!")
+        print("You lost this round!")
 
 if __name__ == "__main__":
     main()
