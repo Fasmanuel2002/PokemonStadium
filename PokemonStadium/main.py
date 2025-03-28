@@ -90,32 +90,44 @@ def choosePokemon(List_Pokemons,number):
 def actions():
     #The four attacks that it has
     ...
-def fightPokemons(selectIAfirst, pokemons_player,pokemon_to_use):
-    
-    self_life = selectIAfirst.Hp > 0  or pokemons_player[pokemon_to_use].Hp > 0
-    #Create iF and While, if the IA is more Rapid or not
-    while(self_life):
-        if selectIAfirst.speed < pokemons_player[pokemon_to_use].speed:
-            print(pokemons_player[pokemon_to_use].attacks())
-            choice = input("Attacks chose:")
-            if choice in pokemons_player[pokemon_to_use].attacks():
-                pokemon_attack = pokemons_player[pokemon_to_use].attacks()
-                for attack, damage in pokemon_attack.items():
-                    if choice in attack:
-                        damage_from = selectIAfirst.get_damage(pokemons_player[pokemon_to_use])
-                        hp = (damage * damage_from)
-                        selectIAfirst._Hp -= hp
-                        print(selectIAfirst.Hp)
+import random
 
-        elif selectIAfirst.speed > pokemons_player[pokemon_to_use].speed:
-            choice, damage_fromAttack = random.choice(list(selectIAfirst.attacks().items()))
-            if choice in selectIAfirst.attacks():
-                IApokemon_attack = selectIAfirst.attacks()
-                for attack, damage in IApokemon_attack.items():
-                    if choice in attack:
-                        damage_from = pokemons_player[pokemon_to_use].get_damage(selectIAfirst)
-                        hp = (damage * damage_from)
-                        pokemons_player[pokemon_to_use]._Hp -= hp
-                        print(pokemons_player[pokemon_to_use])            
+def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
+    player_pokemon = pokemons_player[pokemon_to_use]  # Select the correct Pokémon
+
+    # Determine who starts (based on speed)
+    player_turn = player_pokemon.speed >= selectIAfirst.speed  # Player goes first if faster
+
+    while selectIAfirst.Hp > 0 and player_pokemon.Hp > 0:
+        if player_turn:
+            # Player's Turn
+            player_attacks = player_pokemon.attacks()  # Now it correctly gets attacks
+            print("Available attacks:", list(player_attacks.keys()))
+            choice = input("Choose an attack: ")
+
+            if choice in player_attacks:
+                damage = player_attacks[choice]
+                damage_multiplier = selectIAfirst.get_damage(player_pokemon)
+                selectIAfirst.Hp -= damage * damage_multiplier
+                print(f"{selectIAfirst} HP: {selectIAfirst.Hp}")
+
+        else:
+            # AI's Turn
+            ia_attacks = selectIAfirst.attacks()
+            if ia_attacks:
+                choice, damage = random.choice(list(ia_attacks.items()))
+                damage_multiplier = player_pokemon.get_damage(selectIAfirst)
+                player_pokemon.Hp -= damage * damage_multiplier
+                print(f"{player_pokemon} HP: {player_pokemon.Hp}")
+
+        # Switch turn
+        player_turn = not player_turn
+
+    # Determine the winner
+    if selectIAfirst.Hp <= 0:
+        print("You won!")
+    else:
+        print("You lost!")
+
 if __name__ == "__main__":
     main()

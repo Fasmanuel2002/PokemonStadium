@@ -46,7 +46,7 @@ class Pokemon:
     
     @Hp.setter
     def Hp(self, newHP):
-        if isinstance(newHP, int):
+        if isinstance(newHP, (int,float)):
             self._Hp = newHP
         else:
             raise ValueError("Not Number")
