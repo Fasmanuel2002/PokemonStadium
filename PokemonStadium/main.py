@@ -2,18 +2,16 @@ import sys
 import os
 import random
 
-# Ensure the correct path is added for module imports
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from Pokemon.PokemonsCreator import pokemons  # Import Pokémon creation function
 
 def main():
-    # Generate AI and player Pokémon
     AIPlayer = pokemons()[0]
     Pokemons = pokemons()[1]
     pokemons_player = []
     pokemons_AI = []
 
-    # Player selects 3 Pokémon
     print("Select 3 Pokémon from the list:")
     for poke in Pokemons:
         print(f"{poke} \n")
@@ -31,7 +29,6 @@ def main():
             except ValueError:
                 print("Please enter a valid number.")
 
-    # AI selects 3 Pokémon randomly
     ai_pokemon_numbers = random.sample(range(1, 80), 3)
     for num in ai_pokemon_numbers:
         SinglePokemon = choosePokemon(AIPlayer, num)
@@ -41,13 +38,13 @@ def main():
     for poke in pokemons_player:
         print(f"{poke}\n")
 
-    # AI Pokémon selection
+ 
     print("\nAI has selected its Pokémon.\n")
 
-    # Ensure AI Pokémon are unique
+    
     selectIAfirst, selectIASecond, selectIAThird = pokemons_AI
 
-    # Player chooses first Pokémon
+    
     while True:
         try:
             pokemon_to_use = int(input("Select your first Pokémon (0-2): "))
@@ -57,11 +54,11 @@ def main():
         except ValueError:
             print("Please enter a valid number.")
 
-    # AI vs Player Battles (Three rounds)
+    
     for ai_pokemon in [selectIAfirst, selectIASecond, selectIAThird]:
         print(f"\n\n\nAI's next Pokémon: {ai_pokemon.NamePokemon}")
 
-        # Check if the player's Pokémon has fainted and switch if needed
+        
         if pokemons_player[pokemon_to_use].Hp <= 0:
             print("Your Pokémon fainted! Choose another one:")
             while True:
@@ -79,16 +76,14 @@ def main():
     print("\n🎉 Congratulations! You won the Pokémon battle! 🎉")
 
 def choosePokemon(List_Pokemons, number):
-    """Returns a Pokémon object based on its Pokedex number."""
     for pokemon in List_Pokemons:
         if number == pokemon.NumPokedex:
             return pokemon
-    return None  # Return None if Pokémon is not found
+    return None 
 
 def fightPokemons(selectIA, pokemons_player, pokemon_to_use):
-    """Handles turn-based Pokémon battles."""
-    player_pokemon = pokemons_player[pokemon_to_use]  # Select player's Pokémon
-    player_turn = player_pokemon.speed >= selectIA.speed  # Determine who attacks first
+    player_pokemon = pokemons_player[pokemon_to_use]  
+    player_turn = player_pokemon.speed >= selectIA.speed  
 
     while selectIA.Hp > 0 and player_pokemon.Hp > 0:
         if player_turn:
