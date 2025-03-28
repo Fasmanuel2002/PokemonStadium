@@ -12,8 +12,7 @@ def main():
     Pokemons = pokemons()[1]
     pokemons_player = []
     pokemons_AI = []
-    #player = Trainer()
-    #AI = TrainerAI()
+
     print("Selects 3 Pokemons of the list")
     for poke in Pokemons:
         print(f"{poke} \n")
@@ -22,11 +21,6 @@ def main():
         selection = int(input(f"{i+1} Pokemon: "))
         Single_Pokemon = choosePokemon(Pokemons, selection)
         pokemons_player.append(Single_Pokemon)
-    
-    #player.team = pokemons_player
-    #print("Player Team")
-    #for poke in player.team:
-     #   print(f"{poke}\n")
 
     
     #Selection for Pokemons for Ai
@@ -51,10 +45,9 @@ def main():
     
     #First Fight
     fightPokemons(selectIAfirst, pokemons_player,pokemon_to_use)
-    AIPlayer.remove(selectIAfirst)
     print(f"This pokemon has fainted {selectIAfirst.NamePokemon}")
     
-    """
+    
     
     print("\n\n\nThese is the second Pokemon of the AI")
     selectIASecond = random.choice(pokemons_AI)
@@ -62,7 +55,6 @@ def main():
     
     #Second Fight
     fightPokemons(selectIASecond, pokemons_player,pokemon_to_use)
-    AIPlayer.remove(selectIASecond)
     print(f"This pokemon has fainted {selectIASecond.NamePokemon}")
     
     
@@ -72,14 +64,9 @@ def main():
     print(selectIAThird.NamePokemon)
     
     
-    fightPokemons(selectIAThird, pokemons_player,pokemon_to_use)
-    print(f"This pokemon has fainted {selectIAThird.NamePokemon}")
-    
     print("PLAYERS WINS")
     
-"""   
-    
-    
+ 
 
 def choosePokemon(List_Pokemons,number):
     for pokemon in List_Pokemons:
@@ -87,13 +74,13 @@ def choosePokemon(List_Pokemons,number):
             return pokemon
 
 def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
-    player_pokemon = pokemons_player[pokemon_to_use]  # Select the correct Pokémon
-    player_turn = player_pokemon.speed >= selectIAfirst.speed  # Player goes first if faster
-
+    player_pokemon = pokemons_player[pokemon_to_use]  
+    player_turn = player_pokemon.speed >= selectIAfirst.speed  
+    
     while selectIAfirst.Hp > 0 and player_pokemon.Hp > 0:
         if player_turn:
-            # Player's Turn
-            player_attacks = player_pokemon.attacks()  # Now it correctly gets attacks
+            print("\nplayer turn\n")
+            player_attacks = player_pokemon.attacks()  
             print("Available attacks:", list(player_attacks.keys()))
             choice = input("Choose an attack: ")
 
@@ -101,16 +88,15 @@ def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
                 damage = player_attacks[choice]
                 damage_multiplier = selectIAfirst.get_damage(player_pokemon)
                 selectIAfirst.Hp -= damage * damage_multiplier
-                print(f"HP: {selectIAfirst.Hp}")
-
+                print(f"HP: {selectIAfirst.Hp} \n")
         else:
-            # AI's Turn
+            print("\nAI turn for attacking\n")
             ia_attacks = selectIAfirst.attacks()
             if ia_attacks:
                 choice, damage = random.choice(list(ia_attacks.items()))
                 damage_multiplier = player_pokemon.get_damage(selectIAfirst)
                 player_pokemon.Hp -= damage * damage_multiplier
-                print(f" HP: {player_pokemon.Hp}")
+                print(f" HP: {player_pokemon.Hp} \n")
 
         
         player_turn = not player_turn
