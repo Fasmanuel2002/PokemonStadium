@@ -222,9 +222,6 @@ class Pokemon:
     
     
     
-    #def available_attacks(self):
-    #   return random.sample(attacks.get(self._pokemonType, []),4)
-    
     def __str__(self):
         return f"Pokedex No: {self.NumPokedex}\t Name: {self.NamePokemon}\n Hp: {self.Hp}\t \t Attack: {self.attack}\n Defense: {self.defense}\t Speed: {self.speed}\n Type: {self.pokemonType}"
 

@@ -35,11 +35,6 @@ def main():
         SinlePokemon = choosePokemon(AIPlayer, selectIA)
         pokemons_AI.append(SinlePokemon)
     
-    #AI.team = pokemons_AI
-    #print("AI team")    
-    #for poke in AI.team:
-    #    print(f"{poke}\n")
-   
    
     print("\n\n\nPokemons that you Selected")
     for poke in pokemons_player:
@@ -47,8 +42,6 @@ def main():
     
      
     print("\n\n\nThese is the first Pokemon of the AI")    
-    #for pokeIA in pokemons_AI:
-    #   print(f"{pokeIA}\n")
     selectIAfirst = random.choice(pokemons_AI)
     print(selectIAfirst.NamePokemon)
     
@@ -99,19 +92,30 @@ def actions():
     ...
 def fightPokemons(selectIAfirst, pokemons_player,pokemon_to_use):
     
+    self_life = selectIAfirst.Hp > 0  or pokemons_player[pokemon_to_use].Hp > 0
     #Create iF and While, if the IA is more Rapid or not
-    while(selectIAfirst.Hp > 0):
-        print(pokemons_player[pokemon_to_use].attacks())
-        choice = input("Attacks chose:")
-        if choice in pokemons_player[pokemon_to_use].attacks():
-            pokemon_attack = pokemons_player[pokemon_to_use].attacks()
-            for attack, damage in pokemon_attack.items():
-                if choice in attack:
-                    damage_from = selectIAfirst.get_damage(pokemons_player[pokemon_to_use])
-                    hp = (damage * damage_from)
-                    selectIAfirst._Hp -= hp
-                    print(selectIAfirst.Hp)
+    while(self_life):
+        if selectIAfirst.speed < pokemons_player[pokemon_to_use].speed:
+            print(pokemons_player[pokemon_to_use].attacks())
+            choice = input("Attacks chose:")
+            if choice in pokemons_player[pokemon_to_use].attacks():
+                pokemon_attack = pokemons_player[pokemon_to_use].attacks()
+                for attack, damage in pokemon_attack.items():
+                    if choice in attack:
+                        damage_from = selectIAfirst.get_damage(pokemons_player[pokemon_to_use])
+                        hp = (damage * damage_from)
+                        selectIAfirst._Hp -= hp
+                        print(selectIAfirst.Hp)
 
-
+        elif selectIAfirst.speed > pokemons_player[pokemon_to_use].speed:
+            choice, damage_fromAttack = random.choice(list(selectIAfirst.attacks().items()))
+            if choice in selectIAfirst.attacks():
+                IApokemon_attack = selectIAfirst.attacks()
+                for attack, damage in IApokemon_attack.items():
+                    if choice in attack:
+                        damage_from = pokemons_player[pokemon_to_use].get_damage(selectIAfirst)
+                        hp = (damage * damage_from)
+                        pokemons_player[pokemon_to_use]._Hp -= hp
+                        print(pokemons_player[pokemon_to_use])            
 if __name__ == "__main__":
     main()
