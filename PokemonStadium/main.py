@@ -19,7 +19,7 @@ def main():
         print(f"{poke} \n")
     
     for i in range(3):
-        selection = int(input(f"{i+1}Pokemon: "))
+        selection = int(input(f"{i+1} Pokemon: "))
         Single_Pokemon = choosePokemon(Pokemons, selection)
         pokemons_player.append(Single_Pokemon)
     

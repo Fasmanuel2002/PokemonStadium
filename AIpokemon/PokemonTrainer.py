@@ -1,5 +1,6 @@
-from Pokemon import ClassPokemon as Pokemon
-
+from Pokemon.ClassPokemon import Pokemon
+from PokemonStadium.main import fightPokemons
+import copy
 
 #Set of actions
 class Actions:
@@ -7,8 +8,7 @@ class Actions:
         self.action = action
         self.user = user
         self.target = target
-
-
+    
 
 class Trainer:
     def __init__(self):
@@ -20,6 +20,8 @@ class Trainer:
         self._in_battle = self.team[0]
         self.team[0].on_field = True
         self.in_battle_fainted = False
+   
+   
     
     def get_loseGame(self):
         faint_cnt = 0
@@ -36,52 +38,31 @@ class Trainer:
     def set_turn(self, _token):
             self.token = _token
             
+@staticmethod
+def simulate_action(state, action):
+    new_state = copy.deepcopy(state)
+    
+    # Assuming action.action holds the attack object with a 'damage' attribute.
+    attack = action.action
+    user = action.user
+    target = action.target
+
+    # Use the target's method to compute damage multiplier based on the user.
+    damage_multiplier = target.get_damage(user)
+    damage = attack.damage * damage_multiplier
+    target._Hp -= damage
+
+    # Update target's fainted status
+    if target._Hp <= 0:
+        target.fainted = True
+    
+    return new_state
+
     
     
-        
-
-#This makes Dad Trainer, all atributes came down
-class TrainerAI(Trainer):
-    def __init__(self):
-        self.isIA = True
-        
-    ##Its seeing like if it fainted change the team of the i
-    def verify_is_fainted(self):
-        if self.get_loseGame() == False:
-            if self.in_battle_fainted == True:
-                self.in_battle = False
-                i = 0
-                while True:
-                    if self.team[i].fainted == True:
-                        #i == 0 the first pokemon 
-                        i += 1
-                    else:
-                        self.in_battle = self.team[i]
-                        self.team[i].on_field = True
-                        break
-                        
-                        
-            
-
-
-class RandomAI(TrainerAI):
-    def __init__(self):
-        #DAD super Class
-        super(RandomAI, self).__init__()
-        self.choices = [ ] #Number of choices of the Ai
-        
-        
-
-
-
-class MinimaxAI(TrainerAI):
-    ...
-
-
-class MMAlphaBetaAI(MinimaxAI):
-    ...
+    #Pokemon.Pokemon.get_damage()
     
+def minimax(state, depth, maximizingPlayer):
+    v = float('-inf') 
+           
 
-
-class ExpectiMaxAI(MinimaxAI):
-    ...

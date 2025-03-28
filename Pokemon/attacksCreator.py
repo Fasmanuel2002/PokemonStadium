@@ -101,7 +101,7 @@ attacks = [
     (79, "Extrasensory",     Type.PSYCHIC, 80, 100, 20),
     (80, "Mind Bend",        Type.PSYCHIC, 70,  95, 15),
 
-    # BUG type moves (IDs 81-88)
+    # #BUG type moves (IDs 81-88)
     (81, "Bug Bite",         Type.BUG,  40, 100, 20),
     (82, "String Shot",      Type.BUG,   0,  95, 40),
     (83, "Leech Life",       Type.BUG,  80, 100, 10),

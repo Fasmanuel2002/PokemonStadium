@@ -157,7 +157,7 @@ class Pokemon:
                 "Drill Peck":80   
             }
             return attacks
-        elif self.pokemonType == "🌍":
+        elif self.pokemonType == Type.ROCK:
             attacks = {
                 "Earthquake ":100,
                 "Magnitude":80,
@@ -165,7 +165,7 @@ class Pokemon:
                 "Bulldoze":60   
             }
             return attacks
-        elif self.pokemonType == "☠️":
+        elif self.pokemonType == Type.POISON:
             attacks = {
                 "Sludge Bomb": 90,
                 "Poison Jab": 80,
@@ -173,7 +173,7 @@ class Pokemon:
                 "Toxic": 90
             }
             return attacks
-        elif self.pokemonType == "🔮":
+        elif self.pokemonType == Type.PSYCHIC:
             attacks = {
                 "Psychic ": 90,
                 "Psybeam ": 65,
@@ -181,7 +181,7 @@ class Pokemon:
                 "Future Sight": 120
             }
             return attacks
-        elif self.pokemonType == "🐛":
+        elif self.pokemonType == Type.BUG:
             attacks = {
                 "X-Scissor": 80,
                 "Signal Beam": 75,
@@ -189,7 +189,7 @@ class Pokemon:
                 "Silver Wind": 60
             }
             return attacks
-        elif self.pokemonType == "💎":
+        elif self.pokemonType == Type.ROCK:
             attacks = {
                 "Rock Slide": 75,
                 "Stone Edge": 100,
@@ -197,7 +197,7 @@ class Pokemon:
                 "Ancient Power": 60
             }
             return attacks
-        elif self.pokemonType == "🧚":
+        elif self.pokemonType == Type.FAIRY:
             attacks = {
                 "Moonblast": 95,
                 "Dazzling Gleam": 80 ,
@@ -205,7 +205,7 @@ class Pokemon:
                 "Fairy Wind": 40
             }
             return attacks
-        elif self.pokemonType == "👊🏻":
+        elif self.pokemonType == Type.FIGHTING:
             attacks = {
                 "Brick Break": 75 ,
                 "Focus Punch": 150 ,
