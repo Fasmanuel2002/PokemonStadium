@@ -86,16 +86,8 @@ def choosePokemon(List_Pokemons,number):
         if number == pokemon.NumPokedex:
             return pokemon
 
-
-def actions():
-    #The four attacks that it has
-    ...
-import random
-
 def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
     player_pokemon = pokemons_player[pokemon_to_use]  # Select the correct Pokémon
-
-    # Determine who starts (based on speed)
     player_turn = player_pokemon.speed >= selectIAfirst.speed  # Player goes first if faster
 
     while selectIAfirst.Hp > 0 and player_pokemon.Hp > 0:
@@ -109,7 +101,7 @@ def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
                 damage = player_attacks[choice]
                 damage_multiplier = selectIAfirst.get_damage(player_pokemon)
                 selectIAfirst.Hp -= damage * damage_multiplier
-                print(f"{selectIAfirst} HP: {selectIAfirst.Hp}")
+                print(f"HP: {selectIAfirst.Hp}")
 
         else:
             # AI's Turn
@@ -118,12 +110,11 @@ def fightPokemons(selectIAfirst, pokemons_player, pokemon_to_use):
                 choice, damage = random.choice(list(ia_attacks.items()))
                 damage_multiplier = player_pokemon.get_damage(selectIAfirst)
                 player_pokemon.Hp -= damage * damage_multiplier
-                print(f"{player_pokemon} HP: {player_pokemon.Hp}")
+                print(f" HP: {player_pokemon.Hp}")
 
-        # Switch turn
+        
         player_turn = not player_turn
 
-    # Determine the winner
     if selectIAfirst.Hp <= 0:
         print("You won!")
     else:
